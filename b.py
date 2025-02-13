@@ -148,7 +148,7 @@ def extract_files(html_content, base_url):
             })
           
         # Extract images from img tags
-        for img in soup.find_all('img', src=True):
+    for img in soup.find_all('img', src=True):
         src = img['src']
         absolute_url = urljoin(base_url, src)
         alt_text = img.get('alt', '').strip()

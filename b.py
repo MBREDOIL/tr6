@@ -249,7 +249,7 @@ async def check_website_updates(client):
                     save_user_data(user_data)
 
 async def start(client, message):
-    logger.info(f"Received start command from chat_type: {message.chat.type}, user_id: {message.from_user.id if message.from_user else None}, chat_id: >
+    logger.info(f"Received start command from chat_type: {message.chat.type}, user_id: {message.from_user.id if message.from_user else None}, chat_id: {message.chat.id}")
 
     if message.chat.type == ChatType.PRIVATE:
         if not is_authorized_user(message.from_user.id):

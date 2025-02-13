@@ -484,7 +484,7 @@ async def remove_channel(client, message):
 
     except Exception as e:
         logger.error(f"Remove channel error: {e}")
-            await message.reply_text("❌ Failed to remove channel.")
+        await message.reply_text("❌ Failed to remove channel.")
 
 async def add_sudo_user(client, message):
     try:

@@ -203,7 +203,8 @@ async def check_website_updates(client):
                     logger.error(f"Update send error: {e}")
 
                 new_files = [f for f in current_files if f not in stored_files]
-                                                                                                                                                                        if new_files:
+                
+                if new_files:
                     # Send TXT summary
                     try:
                         txt_file = await create_document_file(url, new_files)

@@ -423,6 +423,67 @@ async def list_documents(client, message):
             os.remove(txt_file)
         except Exception as e:
             logger.error(f"Document list error: {e}")
+            await message.reply_text("❌ Error sending file list")
+
+
+async def add_channel(client, message):
+    try:
+        if message.from_user.id != OWNER_ID:
+            await message.reply_text("❌ Only owner can add channels.")
+            return
+
+        if len(message.command) < 2:
+            await message.reply_text("⚠️ Usage: /addchannel <channel_id>")
+            return
+
+        try:
+            channel_id = int(message.command[1])
+        except ValueError:
+            await message.reply_text("❌ Invalid channel ID.")
+            return
+
+        authorized_channels = load_channels()
+
+        if channel_id in authorized_channels:
+            await message.reply_text("✅ Channel already authorized.")
+            return
+
+        authorized_channels.append(channel_id)
+        save_channels(authorized_channels)
+        await message.reply_text(f"✅ Channel {channel_id} authorized.")
+
+    except Exception as e:
+        logger.error(f"Add channel error: {e}")
+        await message.reply_text("❌ Failed to add channel.")
+
+async def remove_channel(client, message):
+    try:
+        if message.from_user.id != OWNER_ID:
+            await message.reply_text("❌ Only owner can remove channels.")
+            return
+
+        if len(message.command) < 2:
+            await message.reply_text("⚠️ Usage: /removechannel <channel_id>")
+            return
+
+        try:
+            channel_id = int(message.command[1])
+        except ValueError:
+            await message.reply_text("❌ Invalid channel ID.")
+            return
+
+        authorized_channels = load_channels()
+
+        if channel_id not in authorized_channels:
+            await message.reply_text("❌ Channel not in list.")
+            return
+
+        authorized_channels.remove(channel_id)
+        save_channels(authorized_channels)
+        await message.reply_text(f"✅ Channel {channel_id} removed.")
+
+    except Exception as e:
+        logger.error(f"Remove channel error: {e}")
             await message.reply_text("❌ Failed to remove channel.")
 
 async def add_sudo_user(client, message):
